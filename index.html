@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>qrforth</title>
+  <meta charset="utf-8" />
+  <!-- <script type="module">
+    import init, { forth } from "./pkg/qrforth.js";
+      init().then(() => {
+        forth("400 20 +");
+      });
+  </script> -->
+</head>
+<body>
+  <div>
+    <h1>qrforth</h1>
+    <div id="terminal">
+        <pre id="output"></pre>
+        <input id="input" type="text" autofocus>
+    </div>
+  </div>
+  <br>
+  <footer>qrforth v0.1.0, 2023 mdeeds, MIT License</footer>
+
+  <script type="module">
+
+    import init, { forth } from "./pkg/qrforth.js";
+    init().then(() => {
+      forth("400 20 +");
+    });
+
+    const terminal = document.getElementById('terminal');
+    const output = document.getElementById('output');
+    const input = document.getElementById('input');
+
+    input.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = input.value;
+            input.value = '';
+            appendOutput(`${command}`);
+            executeCommand(command);
+        }
+    });
+
+    function appendOutput(text) {
+        output.innerHTML += text + '\n';
+        terminal.scrollTop = terminal.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    function executeCommand(command) {
+        // You can implement your own command execution logic here.
+        // For simplicity, let's just echo the command for demonstration.
+        let out = forth(command);
+        appendOutput(`${out}`);
+    }
+  </script>
+</body>
+</html>
