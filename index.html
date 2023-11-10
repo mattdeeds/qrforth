@@ -20,26 +20,18 @@
   </div>
   <br>
   <footer>qrforth v0.1.0, 2023 mdeeds, MIT License</footer>
-
   <script type="module">
 
-    import init, { forth, get_stack_pointer, store_value_in_input, get_stack_top, get_stack_at_location} from "./pkg/qrforth.js";
-    const rustWasm = await init("./pkg/qrforth_bg.wasm");
-    init().then(() => {
-      //forth();
-    });
+    const importObj = {};
+    const response = await fetch("target/wasm32-unknown-unknown/release/qrforth.wasm");
+    const {instance} = 
+      await WebAssembly.instantiateStreaming(response, importObj);
+
+    let top = instance.exports.nth_prime(3)
 
     const terminal = document.getElementById('terminal');
     const output = document.getElementById('output');
     const input = document.getElementById('input');
-
-
-    // Next, let's create a Uint8Array of our wasm memory
-    const wasmMemory = new Uint8Array(rustWasm.memory.buffer);
-
-    // Then, let's get the pointer to our buffer that is within wasmMemory
-    let stackPointer = get_stack_pointer();
-    //let inputBufferPointer = get_input_buffer_pointer();
 
     input.addEventListener('keyup', function (e) {
         if (e.key === 'Enter') {
@@ -56,41 +48,11 @@
         terminal.scrollTop = terminal.scrollHeight; // Auto-scroll to the bottom
     }
 
-    function stringToAsciiArray(str) {
-      let asciiArray = [];
-    
-      for (let i = 0; i < str.length; i++) {
-        asciiArray.push(str.charCodeAt(i));
-      }
-    
-      return asciiArray;
-    }
-
     function executeCommand(command) {
-
-      const asciiArray = stringToAsciiArray(command);
-      for (let i = 0; i < asciiArray.length; i++) {
-        //wasmMemory[stackPointer + i] = asciiArray[i];
-        store_value_in_input(asciiArray[i], i);
-      }
-      //set_input_len(asciiArray.length - 1);
-      console.log(asciiArray);
-      //store_value_in_input(50, 0);
-      //store_value_in_input(32, 1);
-      //store_value_in_input(50, 2);
-      //store_value_in_input(32, 3);
-      //store_value_in_input(43, 4);
-      forth();
-      
-      let top = get_stack_top();
-      const out = [];
-      for (let i = 0; i < top; i++) {
-        //out.push(wasmMemory[stackPointer + i]);
-        out.push(get_stack_at_location(i));
-      }
-      appendOutput('top = ' + `${top}`+ " | " + '[' + `${out}` + ']');
+      //wasmMemory[tokenPointer + 1] = 55;
+      appendOutput(`${top}`);
     }
     
-  </script>
+    </script>
 </body>
 </html>

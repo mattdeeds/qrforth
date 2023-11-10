@@ -9,13 +9,14 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [profile.release]
-# strip = true
-strip = "debuginfo"
+strip = true
+# strip = "debuginfo"
 lto = true
 
-[package.metadata.wasm-pack.profile.release]
-# wasm-opt = true
-wasm-opt = false
+# [package.metadata.wasm-pack.profile.release]
+# # wasm-opt = true
+# wasm-opt = false
 
 [dependencies]
-wasm-bindgen = "0.2.88"
+# wasm-bindgen = "0.2.88"
+# lol_alloc = "0.4.0"
