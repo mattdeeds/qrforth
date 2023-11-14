@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<body>
+   <div id="term">
+      <pre id="out"></pre>
+      <input id="in" type="text" autofocus>
+   </div>
+   <script>
+    wa64 = "AGFzbQEAAAABEQRgAAF/YAF/AX9gAX8AYAAAAwcGAAECAwIDBQMBABEGGQN/AUGAgMAAC38AQYH9wAALfwBBkP3AAAsHQgcGbWVtb3J5AgADdG9wAAAFc3RhY2sAAQVmb3J0aAACBHB1c2gABApfX2RhdGFfZW5kAwELX19oZWFwX2Jhc2UDAgrSAgYLAEEALQCA/cCAAAsRACAAQQJ0QYCAwIAAaigCAAvqAQEBfwJAAkACQAJAAkACQCAAQVVqDgMCAQMACyAAQeQARg0DCwAAC0EAQQAtAID9wIAAQX9qIgA6AID9wIAAIABB/wFxIgBBf2oiAUGgH08NAiABQQJ0QYCAwIAAaiIBIAEoAgAgAEECdEGAgMCAAGooAgBqNgIADwtBAEEALQCA/cCAAEF/aiIAOgCA/cCAACAAQf8BcSIAQX9qIgFBoB9PDQEgAUECdEGAgMCAAGoiASABKAIAIABBAnRBgIDAgABqKAIAazYCAA8LQQBBAC0AgP3AgABBf2o6AID9wIAADwsQg4CAgAAACwkAEIWAgIAAAAs3AQF/QQAtAID9wIAAIgFBAnRBgIDAgABqIAA2AgACQCABQf8BRg0AQQAgAUEBajoAgP3AgAALCwQAAAAL";
+    wabuf = Uint8Array.from(atob(wa64), c => c.charCodeAt(0)).buffer;
+    WebAssembly.compile(wabuf).then(x => {
+        wasm = x;
+        ins = new WebAssembly.Instance(wasm);
+    });
+    const term = document.getElementById('term');
+    const out = document.getElementById('out');
+    const input = document.getElementById('in');
+    input.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const com = input.value;
+            input.value = '';
+            appendOutput(`${com}`);
+            executeCommand(com);
+        }
+    });
+    
+    function appendOutput(text) {
+        out.innerHTML += text + '\n';
+        term.scrollTop = term.scrollHeight;
+    }
+    
+    function executeCommand(command) {
+        const tokens = command.split(/\s+/);
+        for (let i = 0; i < tokens.length; i++) {
+            const token = tokens[i];
+            if (token === '') {
+                continue;
+            } else if (!isNaN(token)) {
+                ins.exports.push(parseInt(token));
+            } else if (token === ':') {
+                // define new word in dictionary
+                break;
+                // }else if(token is contained within the dictionary){
+            } else {
+                ins.exports.forth(token.charCodeAt(0));
+            }
+        }
+        let top = ins.exports.top();
+        const out = [];
+        for (let i = 0; i < top; i++) {
+            out.push(ins.exports.stack(i));
+        }
+        appendOutput('top = ' + `${top}` + " | " + '[' + `${out}` + ']');
+    }
+   </script>
+</body>
+</html>

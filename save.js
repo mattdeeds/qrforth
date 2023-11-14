@@ -122,3 +122,17 @@ console.log("tokenPointer: " + tokenPointer);
     }
     
   </script>
+
+https://itty.bitty.site/#/?eJyzKbAzNLLRL7ADAAwSAmc=
+
+qrforth website has qr code reader that reads the qrforth qrcode and loads the html code in an iframe on the page
+
+https://itty.bitty.site/#index.html/data:text/html;format=gz;base64,eJyFVuFO40gM/s9TeKOTElSaFNBKJ7VB2ttFWiRYVoLT6cQimCZuM0cyk8s4QMX23c+TSdqE5WglmIn9+bM9tieZffhy+fn67++nkFGRn+zN7AK5UMvYQzX+88qzMhTpyR7AjCTlePJvtdAVZbPIPVpFgSQgyURlkGKvpsX4dw8iNo2c7Wyu01WDTOWjXXmXHW6ZeO+ErAaZxh5hVUglcs/JG11ZYaPTNZU1eSeziCU9vVQsbhDNzgNalWipnnkvatILndSmdRS1gWw386pZFlqz8y40eJyEh+HkAI4mR8dQpIipOYCLs2s4lwkqg7OoNbC2JqlkSa3fQqd1jpxA4zDRynBwRcmsl/N/IIaX9bSnqdCUvEFWiCchCRZISRZ4JKolUvQkTHF8NK7Vg9JPqlujCnMUBqM22tDCvP0+74vk/0IluGbm9qycg79w/skYLOb5KnQgkoLwiioUfPbLoAvpYBs2UzccUZQj56lLJu0chPhsUSZUlN2VlSwwON7vJ9/VlG1SrkSBikLO7TRHu/1jdZYGfofxB0m4ir9n5xBDK9cP7xg1AL/LqXkKRZqePjLiXBpChVXgP+CqLv0DWNQqIakVBLgPL5u2kwsWhAyCOI7BP1Wcgt8H2B+G3KqW9gsuRJ1T0Aba/VzAiS4KodLmTG0sjyKvcQjsKRjm+0OtKEtU6WVzFsH9by8t4fr+lTt8xqQm/OzUQQvrgdbNbt0dzSb1gQM7WP1EXQ24l/jYvl5fnMMoBouBEfg/VC/Ursghz4vO8+umjV4Jv6JcZjTlToNPPLpjJ+WWA8oQ5ppIFy7IVyH+T26bOKNmli6w0NXqhvQDqu9a2qJxmIe3HMjHj9MNFK7KnEfFuuyKw1iOwdoZmK/gKZPEcyIS3OuXsgXEnVloLFEQ/TCjaHPOtnUcMMxRLfm2sS006Z9phVRXqjNYtysPOwR2AiV7mEx5mcGAiEWjUZ+nF5U96wZ7I2+ngzZu1baNX3Uwm5NU/WZcA+Z8W1mzD9J8E9+c9f7Q7pe7oaxNFpT2PXGmqDN5k7UXzMjfwcpDG+xkGe9iMfV8N0ta6XIXkcW8wdS3GdZ1W9m2mwHeuV/5GrtjUfJwR30/m6uSbW42lX27VcpfGiSK2NKVpzcfjZvtfMjbXlYb/DsBCrrLdSLsYAZyW+gu28F14rt0ffbDVxc/rO9H4MFP/uML5KaVs9f1vRXcdpe9I2vf6u4NbD883BcHf1rY75r/AGLzpno=
+
+
+//const importObj = {};
+    //const response = await fetch("target/wasm32-unknown-unknown/release/qrforth.wasm");
+    //const {ins} = 
+    //  await WebAssembly.instantiateStreaming(response, importObj);
+
+            //out.push(wasmMemory[stackPointer + i]);
