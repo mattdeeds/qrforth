@@ -31,8 +31,6 @@ extern "C" fn stack(index: u8) -> i32 {
 // Read key stroke as ASCII character
 // Print low byte of x as an ASCII character
 
-
-
 #[no_mangle]
 extern "C" fn forth(input: u8) {
     match input {
