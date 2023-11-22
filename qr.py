@@ -9,7 +9,12 @@ qr = qrcode.QRCode(
     border=4,
 )
 
-url = sys.argv[1]
+# read url from file url.txt
+if sys.argv[1] == "url.txt":
+    with open('url.txt', 'r') as f:
+        url = f.read()
+else:
+    url = sys.argv[1]
 
 qr.add_data(url)
 try:

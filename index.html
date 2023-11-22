@@ -3,7 +3,36 @@
     <head>
         <title>qrforth.com</title>
         <meta charset="utf-8"/>
-        <!-- <script src="script.js"></script> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+    
+            header, footer {
+                background-color: #ffffff;
+                color: rgb(0, 0, 0);
+                text-align: center;
+                padding: 10px;
+            }
+    
+            main {
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            iframe {
+                width: 90%; /* You can adjust this value based on your preference */
+                height: 70vh; /* You can adjust this value based on your preference */
+                border: none;
+            }
+        </style>
         <script type="module">
             let brotli = await import("https://unpkg.com/brotli-wasm@1.3.1/index.web.js?module").then(m => m.default);
             // Get the URL fragment
@@ -36,10 +65,16 @@
         </script>
     </head>
     <body>
-        <div>
+        <header>
             <h1>qrforth</h1>
-            <iframe id="myIframe" width="600" height="400"></iframe>
-        </div>
-        <footer>qrforth v0.1.0, 2023 mdeeds, MIT License</footer>
+        <header>
+        <main>
+            <iframe class="responsive-iframe" id="myIframe" height="600" frameborder="0"></iframe>
+        </main>
+        <footer>
+            <p>qrforth v0.1.0, 2023 mdeeds, MIT License
+            <br>
+            <a href="github.com">GitHub Repo</a></p>
+        </footer>
     </body>
 </html>

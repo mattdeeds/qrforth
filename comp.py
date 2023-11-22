@@ -20,8 +20,8 @@ data = html.encode('utf-8')
 # compress
 data = compress(data)
 # print
-print("Compressed => ")
-print(data)
+# print("Compressed => ")
+# print(data)
 # encode to base64
 data = base64.b64encode(data)
 # print 
@@ -30,10 +30,14 @@ data = base64.b64encode(data)
 # convert to string
 data = data.decode('utf-8')
 # print
-print("String => ")
-print(data)
+# print("String => ")
+# print(data)
 
 # count number of bytes in string
-print("Number of bytes in Input: " + str(len(html)))
-print("Number of bytes in Output: " + str(len(data)))
-print("URL => " + "http://[::]:8000/#" + data)
+# print("Number of bytes in Input: " + str(len(html)))
+print("Output bytes: " + str(len(data)))
+# print("URL => " + "http://[::]:8000/#" + data)
+
+# save final url to file
+with open("url.txt", "w") as f:
+    f.write("http://[::]:8000/#" + data)
