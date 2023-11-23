@@ -1,5 +1,3 @@
-# NoCacheHTTPServer.py
-
 import http.server
 
 PORT = 8000

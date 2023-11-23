@@ -1,6 +1,5 @@
 import sys
 import qrcode
-# from qrcode.image.pure import PyPNGImage
 
 qr = qrcode.QRCode(
     version=40,
@@ -26,8 +25,3 @@ except:
 img = qr.make_image(fill_color="black", back_color="white")
 
 img.save("qr.png" )
-
-# save image to file with time stamp
-# import time
-# timestr = time.strftime("%Y%m%d-%H%M%S")
-# img.save("qr-" + timestr + ".png")
