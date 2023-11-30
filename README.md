@@ -1,15 +1,5 @@
 # qrforth
 
-wasm-pack build --target web
-python -m http.server
-python NoCacheHTTPServer.py
-twiggy top pkg/qrforth_bg.wasm
-twiggy top target/wasm32-unknown-unknown/release/qrforth.wasm
-./wasm2wat target/wasm32-unknown-unknown/release/qrforth.wasm
-python comp.py qrforth.html
-python qr.py "url"
-base64 -i target/wasm32-unknown-unknown/release/qrforth.wasm -o 64
+qrforth is a tiny web based implementation of the Forth programming language that fits in a QR code.
 
-cargo bloat
-cargo build --target=wasm32-unknown-unknown --release
-twiggy top target/wasm32-unknown-unknown/release/qrforth.wasm
+More details can be found at the [about page](https://qrforth.com/about)
