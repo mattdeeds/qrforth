@@ -8,6 +8,11 @@ def compress(data):
 # get data from arg
 file = sys.argv[1]
 
+if len(sys.argv) > 2:
+    url = "http://[::]:8000/#"
+else:
+    url = "https://qrforth.com/#"
+    
 # load data from file
 with open(file, "r") as f:
     html = f.read()
@@ -40,4 +45,4 @@ print("Output bytes: " + str(len(data)))
 
 # save final url to file
 with open("url.txt", "w") as f:
-    f.write("http://[::]:8000/#" + data)
+    f.write(url + data)

@@ -1,3 +1,4 @@
 /target
 .DS_Store
-wasm2wat
+Cargo.lock
+save.txt

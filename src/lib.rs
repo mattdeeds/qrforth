@@ -16,11 +16,8 @@ const STACK_SIZE: usize = 4000;
 //                    ^
 // TOP => 2
 
-// Stack at memory location 0 ( 0x0000 ) to 3999 ( 0x0F9F ) ( 4000 bytes )
-// System memory at 4000 ( 0x0FA0 ) to 7999 ( 0x1F9F ) ( 4000 bytes )
 static mut STACK: [i32; STACK_SIZE * 2] = [0; STACK_SIZE * 2];
 static mut TOP: u16 = 0;
-// static OFFSET: u16 = 4000;
 static MIN: u16 = 2;
 
 static mut FLAGS: u8 = 0;
@@ -66,7 +63,7 @@ extern "C" fn stack(index: u16) -> i32 {
 // Push x onto the stack, ( x -- )
 extern "C" fn push(input: i32) {
     unsafe {
-        if usize::from(TOP) > STACK_SIZE {
+        if usize::from(TOP) >= STACK_SIZE {
             // set overflow bit in flags register
             FLAGS |= 1;
         } else {
