@@ -12,8 +12,8 @@ const input = document.getElementById('in');
 const stack = document.getElementById('stack');
 const dict = {};
 let com = '';
-input.addEventListener('keyup', function(e) {
-    if ((e.key === 'Enter' || e.key === "Return") && !e.shiftKey) {
+input.addEventListener('keydown', function(e) {
+    if ("Return"===e.key||"Enter"===e.code&&!e.shiftKey) {
         e.preventDefault();
         const txt = input.value;
         input.value = '';
