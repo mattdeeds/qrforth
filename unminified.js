@@ -13,13 +13,13 @@ const stack = document.getElementById('stack');
 const dict = {};
 let com = '';
 input.addEventListener('keyup', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if ((e.key === 'Enter' || e.key === "Return") && !e.shiftKey) {
         e.preventDefault();
         const txt = input.value;
         input.value = '';
         com = txt.replace(/\n/g, ' ');
         executeCommand(com.replace(/\([^)]*\)/g, ''));
-        document.getElementById( 'stack' ).scrollIntoView();
+        window.scrollTo(0,document.body.scrollHeight);
     }
 });
 
@@ -33,7 +33,7 @@ function redrawStack() {
     for (let i = 0; i < ins.exports.top(); i++) {
         out.push(ins.exports.stack(i));
     }
-    stack.innerHTML = '[' + `${out}` + ']';
+    stack.innerHTML = 'Stack: [' + `${out}` + '] <- Top';
 }
 
 function defineWord(tokens, mark) {
