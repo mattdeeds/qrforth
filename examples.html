@@ -27,24 +27,54 @@
                 </nav>
             </header>
             <article>
+                <h1>
+                    Try out these examples:
+                </h1>
                 <p>
-                    <strong>Try out these examples:</strong>
+                    Examples are a work in progress...
                 </p>
+                <h2>
+                    Count 1 to 10:
+                </h2>
                 <p>
-                    Work in progress...
+                    <code>
+                        : dup ( x -- x x ) sp@ @ ; 
+                        <br>
+                        : invert ( x -- !x ) dup nand ;
+                        <br>
+                        : negate ( x -- -x ) invert 1 + ;
+                        <br>
+                        : - ( x y -- x-y ) negate + ;
+                        <br>
+                        : = ( x y -- flag ) - 0= ;
+                        <br>
+                        : count-ten 0 begin 1 + dup dup . 32 emit 10 = until ;
+                        <br>
+                        count-ten
+                    </code>
                 </p>
-                <!-- <p>
-                    <small>Input each line of an example one at a time for a better idea of how the program works.</small>
-                </p> -->
-                <!-- <h5>
-                    Hello World
-                </h5>
-                <h5>
-                    Count Primes
-                </h5>
-                <h5>
-                    FizzBuzz
-                </h5> -->
+                <h2>
+                    Count 1 to 10, only ouput 5:
+                </h2>
+                <p>
+                    <code>
+                        : dup ( x -- x x ) sp@ @ ; 
+                        <br>
+                        : invert ( x -- !x ) dup nand ;
+                        <br>
+                        : negate ( x -- -x ) invert 1 + ;
+                        <br>
+                        : - ( x y -- x-y ) negate + ;
+                        <br>
+                        : = ( x y -- flag ) - 0= ;
+                        <br>
+                        : is5? 5 = if dup . then ;
+                        <br>
+                        : count-ten 0 begin 1 + dup dup is5? 10 = until ;
+                        <br>
+                        count-ten
+                    </code>
+                </p>
             </article>
             <footer>
                 <nav>

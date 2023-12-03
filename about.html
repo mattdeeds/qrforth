@@ -28,17 +28,17 @@
             </header>
             <article>
                 <p>
-                    <strong>qrforth</strong> is a tiny implementation of the <a href="https://en.wikipedia.org/wiki/Forth_(programming_language)">Forth</a> programming language that fits in a <a href="qrcode.html">QR code</a>. The heart of qrforth is a miniaturized <a href="https://www.rust-lang.org/">Rust</a> library compiled to <a href="https://webassembly.org/">WebAssembly</a> resulting in a ~1.3kB binary. The qrforth Rust library is responsible for the Forth stack, 11 primitive words, and API functions that allow the qrforth javascript code to easily access the state of the stack and registers. Javascript is used to initialize the webassembly module, accept user input, and define new words. The size of all of this comes to ~2.8kB, just small enough to fit in a version 40 QR code (177x177) with the lowest level error correction.
+                    <strong>qrforth</strong> is a tiny implementation of the <a href="https://en.wikipedia.org/wiki/Forth_(programming_language)">Forth</a> programming language that fits in a <a href="qrcode.html">QR code</a>. The heart of qrforth is a miniaturized <a href="https://www.rust-lang.org/">Rust</a> library compiled to <a href="https://webassembly.org/">WebAssembly</a> resulting in a ~1.3kB binary. The qrforth webassembly module is responsible for the Forth stack, primitive words, and functions that provide access to the stack and registers. Javascript is used to execute the webassembly, accept user input, and define new words. The size of all of this comes to ~2.8kB, just small enough to fit in a version 40 QR code (177x177) with the lowest level error correction. Visiting the Home page or scanning the QR code will run qrforth in your browser.
                 </p>
                 <h1>
                     How it Works
                 </h1>
                 <p>
-                    The qrforth project consists of three main parts: the wasm module(lib.rs & qrforth.wasm), the html/javascript code(qrforth.html), and the qrforth.com webpage(index.html). The wasm module and html/javascript come together and are encoded in the QR code. The qrforth.com webpage is a simple static site hosted on <a href="https://pages.github.com/">GitHub Pages</a> that serves as a landing page and decodes qrforth.<br>
+                    The qrforth project consists of three main parts: the wasm module(lib.rs), the html/javascript code(qrforth.html), and the qrforth.com webpage(index.html). The wasm module is encoded in the qrforth.html page and the whole thing is encoded in the QR code. The url in the QR code needs to point to a resource on the web so the qrforth.com webpage is a simple static site hosted on <a href="https://pages.github.com/">GitHub Pages</a> that serves as a landing page and decodes the url contained in the QR Code.<br>
                     <br>
-                    The url encoded in the QR code looks something like this <code>http://qrforth.com/#i9EKAICqqqrq/26XE5dDdph...</code> (truncated for readability). The qrforth wasm module is encoded in html/javascript page and the whole thing is compressed and encoded in the url using <a href="https://en.wikipedia.org/wiki/URI_fragment">URI fragments</a>. The qrforth.com webpage receives the URI fragment, decodes and decompresses it, and serves the resulting html as an iframe. All of this is done in the browser with no server side code. The following sections go into more detail on how each part of qrforth works.
+                    The url encoded in the QR code looks something like this <code>http://qrforth.com/#i9EKAICqqqrq/26XE5dDdph...</code> (truncated for readability, <a href="https://github.com/mattdeeds/qrforth/blob/main/url.txt">full URL here</a>). Using <a href="https://en.wikipedia.org/wiki/URI_fragment">URI fragments</a> the entire qrforth.html webpage is encoded in the URL itself. The qrforth.com webpage receives the URI fragment, decodes and decompresses it, and serves the resulting html as an iframe. All of this is done in the browser with no server side code. The following sections go into more detail on how each part of qrforth works.
                 <p>
-                    To compile our rust library to webassembly we use the <code>--target=wasm32-unknown-unknown --release</code> cargo build flags. We need to keep the resulting wasm binary as small as possible so we need to: 1) use the <code>#![no_std]</code> attribute to disable the standard library, 2) define a custom panic handler with <code>#[panic_handler]</code>, 3) statically allocate our variables to avoid brining in dlmalloc, and 4) strip and optimize our binary with the strip and lto setting in our Cargo.toml file. All of this will keep the rust compiler from adding in typically useful but sizeable code to our binary. I've linked some super helpful resources below that go into more detail on how to do this.
+                    To compile our rust library to webassembly we use the <code>--target=wasm32-unknown-unknown --release</code> cargo build flags. We need to keep the resulting wasm binary as small as possible so we need to: 1) use the <code>#![no_std]</code> attribute to disable the standard library, 2) define a custom panic handler with <code>#[panic_handler]</code>, 3) statically allocate our variables to avoid brining in dlmalloc, and 4) strip and optimize our binary with the strip and lto setting in our Cargo.toml file. All of this will keep the rust compiler from adding in typically useful but sizeable code to our wasm binary. I've linked some super helpful resources below that go into more detail on how to do this.
                 </p>
                 <ul>
                     <li><a href="https://surma.dev/things/rust-to-webassembly/">Rust to WebAssembly the hard way</a>, Surma</li>
@@ -46,7 +46,7 @@
                     <li><a href="https://darkcoding.net/software/a-very-small-rust-binary-indeed/">A very small rust binary indeed</a>, Graham King</li>
                 </ul>
                 <p>
-                    Now what we have our qrforth.wasm binary, we can encode it as a base64 string and put it in our qrforth.html page. The javascript in qrforth.html will decode the base64 string and initialize the wasm module when the browser loads the page. The qrforth.html page is now complete and the url fragment can be created by encoding the html as a base64 string and compressing it with <a href="https://github.com/google/brotli">brotli</a>. The URL fragment is then appended to the qrforth.com url and the resulting url is encoded as a <a href="/qrcode.html">QR code</a>.<br>
+                    Now what we have our qrforth.wasm binary, we can encode it as a base64 string and put it in our qrforth.html page. The javascript in qrforth.html will decode the base64 string and initialize the wasm module when the browser loads the page. The qrforth.html page is now complete and the URI fragment can be created by compressing the html with <a href="https://github.com/google/brotli">brotli</a> and encoding the result as a base64 string. The URL fragment is then appended to the qrforth.com url and the resulting url is encoded as a <a href="/qrcode.html">QR code</a>.<br>
                     <br>
                     All of these steps are automated with a build script that makes rebuilding as easy as running <code>./build.sh</code>. qrforth can also be run locally with a simple python sever and running <code>./build.sh --local</code>. More info can be found in the <a href="https://github.com/mattdeeds/qrforth">GitHub repository</a>.
                 </p>
@@ -54,8 +54,8 @@
                     Forth Implementation
                 </h1>
                 <p>
-                    The qrforth implementation of Forth is inspired by <a href="https://github.com/cesarblum/sectorforth">sectorforth</a> which is designed to fit in a 512-byte boot sector. qrforth adds a few more words for convenience but otherwise is very minimal. Don't expect qrforth to be a perfect implementation of Forth or ANS Forth compliant, there are already plenty of well designed implementations out there. The goal of qrforth is mainly just to learn more about Forth, WebAssembly, and Rust.<br>
-                    The memory for the system is arbitrarily laid out as an array of 32-bit signed integers, 8000 elements in length. The first 4000 elements reserved for the Forth stack and the second 4000 is general system memory. There is a 8-bit <code>FLAGS</code> register that is used communicating state from the wasm module to the qrforth html page. User input and output and the Forth dictionary are handled by the page's javascript. The following is a list of the 11 primitive words that make up qrforth:
+                    The qrforth implementation of Forth is designed to be very minimal and only includes a limited subset of the language. Using the words provided, more useful words can be written in qrforth. Some examples are provided <a href="/examples.html">here</a>here. Don't expect qrforth to be a perfect implementation of Forth or ANS Forth compliant, there are already plenty of well designed implementations out there. The goal of qrforth is mainly just to learn more about Forth, WebAssembly, and Rust.<br>
+                    The memory for the system is arbitrarily laid out as an array of 32-bit signed integers, 8000 elements in length. The first 4000 elements reserved for the Forth stack and the second 4000 is general system memory. There is a 8-bit <code>FLAGS</code> register that is used communicating state from the wasm module to the qrforth html page. User input and output and the Forth dictionary are handled by the page's javascript. The following is a list of the words that make up qrforth:
                     <table>
                         <thead>
                             <tr>
@@ -107,7 +107,7 @@
                             </tr>
                             <tr>
                                 <td><code>emit</code></td>
-                                <td>Print low byte of x as an ASCII character</td>
+                                <td>Print x as an ASCII character</td>
                                 <td><i>( x -- )</i></td>
                             </tr>
                             <tr>
@@ -119,6 +119,26 @@
                                 <td><code>key</code></td>
                                 <td>Read a character and push it onto the stack</td>
                                 <td><i>( -- x )</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>begin</code></td>
+                                <td>Marks the start of a <strong>begin until</strong> loop</td>
+                                <td><i>( -- )</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>until</code></td>
+                                <td>If x is zero, jumps to matching begin, if x is non-zero, continues execution </td>
+                                <td><i>( x -- )</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>if</code></td>
+                                <td>If x is -1, continue execution within <strong>if then</strong> block.</td>
+                                <td><i>( x -- )</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>then</code></td>
+                                <td>Marks the end of an <strong>if then</strong> block</td>
+                                <td><i>( -- )</i></td>
                             </tr>
                         </tbody>
                     </table>
