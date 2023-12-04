@@ -31,6 +31,11 @@
             small {
                 color: #4c4c4c;
             }
+
+            #messageContainer {
+                text-align: center;
+                margin-top: 20px;
+            }
         </style>
         <script type="module">
             let brotli = await import("https://unpkg.com/brotli-wasm@1.3.1/index.web.js?module").then(m => m.default);
@@ -58,6 +63,20 @@
 
             const iframe = document.getElementById('myIframe');
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerText = 'Loading qrforth...';
+
+            iframe.addEventListener('load', function() {
+                // This will be called when the iframe has finished loading
+                messageContainer.innerText = 'qrforth loaded successfully!';
+            });
+
+            iframe.addEventListener('error', function() {
+                // This will be called if there is an error loading the iframe
+                messageContainer.innerText = 'Error loading qrforth...';
+            });
+
             iframeDocument.open();
             iframeDocument.write(rawHtml);
             iframeDocument.close();
@@ -82,6 +101,7 @@
                     <br>
                     <a href="https://github.com/mattdeeds/qrforth">GitHub</a>
                     </small>
+                    <small><div id="messageContainer">Loading qrforth...<br>This may take a second</div></small>
                 </ul>
             </nav>
         </header>
